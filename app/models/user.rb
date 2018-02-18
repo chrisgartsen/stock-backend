@@ -1,8 +1,12 @@
 class User < ApplicationRecord
 
+  before_save :encrypt_password
+
   attr_accessor :password
 
-  before_save :encrypt_password
+  validates :name, presence: true, uniqueness: true
+  validates :email, presence: true, uniqueness: true
+  validates :password, presence: true, confirmation: true
 
   def encrypt_password
     self.password_salt = BCrypt::Engine.generate_salt
