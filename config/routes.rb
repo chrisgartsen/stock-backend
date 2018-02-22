@@ -2,5 +2,5 @@ Rails.application.routes.draw do
   resources :users
   resources :items
 
-  get 'username_validator/:name', to: 'users#unique_name?'
+  get 'email_validator/:email', to: 'users#unique_email?'
 end

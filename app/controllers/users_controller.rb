@@ -43,12 +43,11 @@ class UsersController < ApplicationController
     @user.destroy
   end
 
-  def unique_name?
-    name = params[:name]
-    puts 'VALIDATOR ' + name
-    if name.nil? or name.length == 0
+  def unique_email?
+    email = params[:email]
+    if email.nil? or email.length == 0
       render json: { valid: false }
-    elsif User.find_by(name: name)
+    elsif User.find_by(email: email)
       render json: { valid: false }
     else
       render json: { valid: true }
