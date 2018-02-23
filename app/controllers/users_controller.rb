@@ -15,12 +15,7 @@ class UsersController < ApplicationController
 
   # POST /users
   def create
-    p "USER PARAMS"
-    p user_params
-    p "USER PARAMS"
     @user = User.new(user_params)
-
-
 
     if @user.save
       render json: @user, except: [:password_hash, :password_salt], status: :created, location: @user
