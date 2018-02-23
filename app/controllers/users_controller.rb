@@ -43,6 +43,17 @@ class UsersController < ApplicationController
     @user.destroy
   end
 
+  def unique_email?
+    email = params[:email]
+    if email.nil? or email.length == 0
+      render json: { valid: false }
+    elsif User.find_by(email: email)
+      render json: { valid: false }
+    else
+      render json: { valid: true }
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
