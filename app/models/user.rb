@@ -8,6 +8,10 @@ class User < ApplicationRecord
   validates :email, presence: true, uniqueness: true
   validates :password, presence: true, confirmation: true
 
+  def authenticate(password) 
+    self.password_hash == self.hash_password(password)
+  end
+
   def encrypt_password
     self.password_salt = BCrypt::Engine.generate_salt
     self.password_hash = self.hash_password(self.password)

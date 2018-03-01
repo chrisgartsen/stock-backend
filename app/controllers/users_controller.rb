@@ -1,3 +1,5 @@
+require 'json_web_token'
+
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :update, :destroy]
 
@@ -15,12 +17,7 @@ class UsersController < ApplicationController
 
   # POST /users
   def create
-    p "USER PARAMS"
-    p user_params
-    p "USER PARAMS"
     @user = User.new(user_params)
-
-
 
     if @user.save
       render json: @user, except: [:password_hash, :password_salt], status: :created, location: @user
@@ -41,6 +38,16 @@ class UsersController < ApplicationController
   # DELETE /users/1
   def destroy
     @user.destroy
+  end
+
+  def login
+    user = User.find_by(email: params[:email].to_s.downcase)
+    if user && user.authenticate(params[:password])
+      auth_token = JsonWebToken.encode({user_id: user.id})
+      render json: {auth_token: auth_token}, status: :ok
+    else
+      render json: {error: 'Invalid username or password'}, status: :unauthorized
+    end
   end
 
   def unique_email?
