@@ -6,6 +6,9 @@ class ItemsController < ApplicationController
   def index
     @items = Item.order(id: :asc)
 
+    puts "NAME"
+    puts "Current user: " + @current_user.name
+
     render json: @items
   end
 

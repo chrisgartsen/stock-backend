@@ -5,7 +5,6 @@ class ApplicationController < ActionController::API
       return invalid_authentication
     end
     load_current_user!
-    puts @current_user.name
     invalid_authentication unless @current_user
   end
 

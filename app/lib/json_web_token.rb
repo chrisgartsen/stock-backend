@@ -11,10 +11,6 @@ class JsonWebToken
     JWT.decode(payload, Rails.application.secrets.secret_key_base)
   end
 
-  def valid_payload(payload)
-
-  end
-
   def self.valid_payload(payload)
     if expired(payload) || payload['iss'] != meta[:iss] || payload['aud'] != meta[:aud]
       return false

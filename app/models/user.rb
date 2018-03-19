@@ -4,9 +4,9 @@ class User < ApplicationRecord
 
   attr_accessor :password
 
-  validates :name, presence: true, uniqueness: true
+  validates :name, presence: true, uniqueness: true, length: { minimum: 8 }
   validates :email, presence: true, uniqueness: true
-  validates :password, presence: true, confirmation: true
+  validates :password, presence: true, confirmation: true, length: {minimum: 6 }
 
   def authenticate(password) 
     self.password_hash == self.hash_password(password)

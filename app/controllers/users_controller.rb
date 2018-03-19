@@ -1,5 +1,3 @@
-require 'json_web_token'
-
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :update, :destroy]
 
