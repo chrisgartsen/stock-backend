@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :update, :destroy]
-  before_action :authenticate_request
+  before_action :authenticate_request_as_admin, except: [:login, :unique_email?]
 
   # GET /users
   def index

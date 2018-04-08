@@ -8,6 +8,11 @@ class ApplicationController < ActionController::API
     invalid_authentication unless @current_user
   end
 
+  def authenticate_request_as_admin
+    authenticate_request
+    invalid_authentication unless @current_user.admin
+  end
+
   def invalid_authentication
     render json: {error: 'Invalid Request'}, status: :unauthorized
   end
