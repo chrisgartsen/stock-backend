@@ -14,6 +14,7 @@ class ApplicationController < ActionController::API
 
   def payload
     auth_header = request.headers['auth']
+    return false unless auth_header
     token = auth_header.split(' ').last
     JsonWebToken.decode(token)
   end
