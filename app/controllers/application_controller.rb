@@ -8,12 +8,18 @@ class ApplicationController < ActionController::API
     invalid_authentication unless @current_user
   end
 
+  def authenticate_request_as_admin
+    authenticate_request
+    invalid_authentication unless @current_user.admin
+  end
+
   def invalid_authentication
     render json: {error: 'Invalid Request'}, status: :unauthorized
   end
 
   def payload
     auth_header = request.headers['auth']
+    return false unless auth_header
     token = auth_header.split(' ').last
     JsonWebToken.decode(token)
   end

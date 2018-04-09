@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :update, :destroy]
+  before_action :authenticate_request_as_admin, except: [:login, :unique_email?]
 
   # GET /users
   def index
@@ -42,7 +43,7 @@ class UsersController < ApplicationController
     user = User.find_by(email: params[:email].to_s.downcase)
     if user && user.authenticate(params[:password])
       auth_token = JsonWebToken.encode({user_id: user.id})
-      render json: {auth_token: auth_token, user_id: user.id, user_name: user.name}, status: :ok
+      render json: user.as_json(except: [:password_hash, :password_salt]).merge(auth_token: auth_token), status: :ok
     else
       render json: {error: 'Invalid username or password'}, status: :unauthorized
     end
